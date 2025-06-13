@@ -4,6 +4,6 @@
     $password = "";
     $database = "cocotrade";
 
-    $connection = mysqli_connect($servername,$username,$password,$database);
+    $connection = mysqli_connect ($servername, $username, $password, $database);
 
     ?>
