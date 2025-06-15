@@ -17,9 +17,9 @@
     margin: 0;
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
       Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background: linear-gradient(135deg, #6366f1, #06b6d4);
+    background: linear-gradient(135 deg, #6366f1, #06b6d4);
     color: #ececff;
-    min-height: 100vh;
+    min-height: 100 vh;
     display: flex;
     flex-direction: column;
   }
