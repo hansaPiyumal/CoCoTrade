@@ -26,46 +26,46 @@
 
   /* Header */
   header {
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(20 px);
     background: rgba(99, 102, 241, 0.7);
-    padding: 16px 32px;
+    padding: 16 px 32 px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 5px 15px rgba(0 0 0 / 0.2);
+    box-shadow: 0 5 px 15 px rgba(0 0 0 / 0.2);
     position: sticky;
     top: 0;
     z-index: 100;
   }
   .logo {
     font-weight: 800;
-    font-size: 1.8rem;
-    letter-spacing: 2px;
+    font-size: 1.8 rem;
+    letter-spacing: 2 px;
     cursor: default;
-    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    background: linear-gradient(135 deg, #8b5cf6, #06b6d4);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     user-select: none;
   }
   nav {
     display: flex;
-    gap: 32px;
+    gap: 32 px;
   }
   nav a {
     color: #d3d3ffcc;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 1 rem;
     text-decoration: none;
-    padding: 8px 12px;
-    border-radius: 12px;
+    padding: 8 px 12 px;
+    border-radius: 12 px;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
   nav a:hover,
   nav a:focus-visible {
     background: #8b5cf6;
     color: white;
-    outline-offset: 4px;
-    outline: 2px solid #8b5cf6;
+    outline-offset: 4 px;
+    outline: 2 px solid #8b5cf6;
   }
 
   /* Main container */
