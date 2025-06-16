@@ -23,20 +23,27 @@
 
     <nav class = "navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
         <div class = "container">
-            <a class = "navbar-brand d-flex justify-content-between align-items-center order-lg-0" href = "index.html">
+            <a class = "navbar-brand d-flex justify-content-between align-items-center order-lg-0" href = "index.php">
                 <img src = "images/logo.jpg" alt = "site icon">
                 <span class = "text-uppercase fw-lighter ms-2">Cocotrade</span>
             </a>
 
-            <div class = "order-lg-2 nav-btns">
-                <button type = "button" class = "btn position-relative">
-                    <a href="ShopingCart.php"><i class = "fa fa-shopping-cart"></i></a>
-                    <span class = "position-absolute top-0 start-100 translate-middle badge bg-primary">5</span>
-                </button>
-                <button type = "button" class = "btn position-relative" >
-                    <input type="search" name="" id="">
-                    <i class = "fa fa-search"></i>
-                </button>
+            <div class="order-lg-2 d-flex align-items-center">
+                <div class="nav-btns d-flex align-items-center">
+                    <a href="ShopingCart.php" class="btn position-relative me-2">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">5</span>
+                    </a>
+                    <div class="input-group me-2" style="max-width: 200px;">
+                        <input type="search" class="form-control form-control-sm" placeholder="Search...">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                    <a href="profile.php" class="btn">
+                        <i class="fa fa-user"></i>
+                    </a>
+                </div>
             </div>
 
             <button class = "navbar-toggler border-0" type = "button" data-bs-toggle = "collapse" data-bs-target = "#navMenu">
@@ -58,8 +65,7 @@
                         <a class = "nav-link text-uppercase text-dark" href = "#about">about us</a>
                     </li>
                     <li class = "nav-item px-2 py-2 border-0">
-                        <a class = "btn text-uppercase text-dark" href = "signup.php">Sig
-                            nup</a>
+                        <a class = "btn text-uppercase text-dark" href = "signup.php">Signup</a>
                     </li>
                 </ul>
             </div>
@@ -187,7 +193,7 @@
         <div class = "container">
             <div class = "row text-white g-4">
                 <div class = "col-md-6 col-lg-3">
-                    <a class = "text-uppercase text-decoration-none brand text-white" href = "index.html">COCOTRADE</a>
+                    <a class = "text-uppercase text-decoration-none brand text-white" href = "index.php">COCOTRADE</a>
                     <p class = "text-white text-muted mt-3">Your go-to destination for fresh, quality, and affordable essentials!</p>
                 </div>
 
