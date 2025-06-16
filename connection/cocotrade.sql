@@ -1,7 +1,6 @@
 create database cocotrade;
 use cocotrade;
 
--- Users Table (for farmers, buyers, wholesalers, etc.)
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -20,7 +19,6 @@ CREATE TABLE users (
     verification_status BOOLEAN DEFAULT FALSE
 );
 
--- User Verification Documents (for farmer/wholesaler verification)
 CREATE TABLE user_verification (
     verification_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -36,7 +34,6 @@ CREATE TABLE user_verification (
     FOREIGN KEY (verified_by) REFERENCES users(user_id)
 );
 
--- Products Table
 CREATE TABLE products (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
     seller_id INT NOT NULL,
@@ -58,7 +55,6 @@ CREATE TABLE products (
     FOREIGN KEY (seller_id) REFERENCES users(user_id)
 );
 
--- Product Categories (for coconut-based products)
 CREATE TABLE product_categories (
     category_id INT AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(50) NOT NULL,
@@ -67,7 +63,6 @@ CREATE TABLE product_categories (
     FOREIGN KEY (parent_category_id) REFERENCES product_categories(category_id)
 );
 
--- Orders Table
 CREATE TABLE orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     buyer_id INT NOT NULL,
@@ -81,7 +76,6 @@ CREATE TABLE orders (
     FOREIGN KEY (buyer_id) REFERENCES users(user_id)
 );
 
--- Order Items Table
 CREATE TABLE order_items (
     order_item_id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT NOT NULL,
@@ -93,7 +87,6 @@ CREATE TABLE order_items (
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
 
--- Transportation Services (for bulk orders)
 CREATE TABLE transportation_services (
     service_id INT AUTO_INCREMENT PRIMARY KEY,
     provider_id INT NOT NULL,
@@ -106,7 +99,6 @@ CREATE TABLE transportation_services (
     FOREIGN KEY (provider_id) REFERENCES users(user_id)
 );
 
--- Transportation Bookings
 CREATE TABLE transportation_bookings (
     booking_id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT NOT NULL,
@@ -124,7 +116,6 @@ CREATE TABLE transportation_bookings (
     FOREIGN KEY (service_id) REFERENCES transportation_services(service_id)
 );
 
--- Coconut Disease Information
 CREATE TABLE coconut_diseases (
     disease_id INT AUTO_INCREMENT PRIMARY KEY,
     disease_name VARCHAR(100) NOT NULL,
@@ -136,7 +127,6 @@ CREATE TABLE coconut_diseases (
     images VARCHAR(255)
 );
 
--- Service Providers (dealers, pickers, etc.)
 CREATE TABLE service_providers (
     provider_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -151,7 +141,6 @@ CREATE TABLE service_providers (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
--- Reviews and Ratings
 CREATE TABLE reviews (
     review_id INT AUTO_INCREMENT PRIMARY KEY,
     reviewer_id INT NOT NULL,
@@ -163,7 +152,6 @@ CREATE TABLE reviews (
     FOREIGN KEY (reviewer_id) REFERENCES users(user_id)
 );
 
--- Messages (for direct communication)
 CREATE TABLE messages (
     message_id INT AUTO_INCREMENT PRIMARY KEY,
     sender_id INT NOT NULL,
@@ -176,7 +164,6 @@ CREATE TABLE messages (
     FOREIGN KEY (receiver_id) REFERENCES users(user_id)
 );
 
--- Notifications
 CREATE TABLE notifications (
     notification_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
