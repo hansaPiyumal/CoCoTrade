@@ -47,7 +47,7 @@
             font-size: 50px;
         }
         .blue-box {
-            background-color: #ffd36d;
+            background-color:rgb(6, 146, 53);
             border-radius: 20px;
             padding: 50px;
             margin: 40px auto;
@@ -64,7 +64,7 @@
                 <h1 class="text-center montserrat-brand" style="font-size:80px">TRADE</h1>
                 <br>
                 <p class="text-center" style="font-size:large;color:white">Bringing the Market to You</p><br><br>
-                <p class="text-center">Have an account? <a style="text-decoration: none;color:grey" href="login.php">Login</a></p>
+                <p class="text-center">Have an account? <a style="text-decoration: none;color:black" href="login.php">Login</a></p>
             </div>
             <div class="col-md-6">
                 <form action="signup.php" method="post">
@@ -89,7 +89,7 @@
                       <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
                       <input type="password" class="form-control" name="cpswd" id="exampleConfirmPassword1">
                     </div>
-                    <button name="signup" type="submit" class="btn" style="background-color: orange;color: white;">Sign Up</button>
+                    <button name="signup" type="submit" class="btn" style="background-color: orange;color: black;">Sign Up</button>
                 </form>
             </div>
             

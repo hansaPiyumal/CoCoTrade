@@ -1,280 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>User Profile Dashboard</title>
-<link
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Material+Icons"
-  rel="stylesheet"
-/>
-<style>
-  /* Reset and base */
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-  body {
-    margin: 0;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-      Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background: linear-gradient(135 deg, #6366f1, #06b6d4);
-    color: #ececff;
-    min-height: 100 vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Header */
-  header {
-    backdrop-filter: blur(20 px);
-    background: rgba(99, 102, 241, 0.7);
-    padding: 16 px 32 px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 5 px 15 px rgba(0 0 0 / 0.2);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .logo {
-    font-weight: 800;
-    font-size: 1.8 rem;
-    letter-spacing: 2 px;
-    cursor: default;
-    background: linear-gradient(135 deg, #8b5cf6, #06b6d4);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    user-select: none;
-  }
-  nav {
-    display: flex;
-    gap: 32 px;
-  }
-  nav a {
-    color: #d3d3ffcc;
-    font-weight: 600;
-    font-size: 1 rem;
-    text-decoration: none;
-    padding: 8 px 12 px;
-    border-radius: 12 px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  nav a:hover,
-  nav a:focus-visible {
-    background: #8b5cf6;
-    color: white;
-    outline-offset: 4 px;
-    outline: 2 px solid #8b5cf6;
-  }
-
-  /* Main container */
-  main {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 48px 24px;
-  }
-
-  /* Profile card */
-  .profile-card {
-    background: rgba(255 255 255 / 0.1);
-    border-radius: 24px;
-    backdrop-filter: blur(18px);
-    box-shadow: 0 24px 48px rgba(99, 102, 241, 0.25);
-    padding: 48px 64px;
-    max-width: 480px;
-    width: 100%;
-    text-align: center;
-    user-select: text;
-  }
-
-  /* Profile image */
-  .profile-avatar {
-    width: 130px;
-    height: 130px;
-    margin: 0 auto 32px;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 8px 28px rgba(99, 102, 241, 0.45);
-    border: 4px solid #8b5cf6;
-  }
-  .profile-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  /* Username */
-  .profile-username {
-    font-weight: 800;
-    font-size: 2.4rem;
-    margin-bottom: 24px;
-    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  /* Info list */
-  .info-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-bottom: 40px;
-  }
-  .info-item {
-    background: rgba(255 255 255 / 0.15);
-    border-radius: 16px;
-    padding: 20px 24px;
-    box-shadow: 0 12px 38px rgba(99, 102, 241, 0.3);
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #ececff;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .info-item .material-icons {
-    font-size: 30px;
-    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    user-select: none;
-    flex-shrink: 0;
-  }
-  .info-label {
-    flex: 0 0 140px;
-    text-align: left;
-    font-weight: 700;
-    font-size: 1rem;
-    opacity: 0.7;
-    user-select: none;
-  }
-  .info-value {
-    text-align: left;
-    flex-grow: 1;
-    word-break: break-word;
-  }
-
-  /* Edit profile button */
-  .btn-edit {
-    background: linear-gradient(135deg, #06b6d4, #8b5cf6);
-    border: none;
-    padding: 16px 48px;
-    border-radius: 16px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: white;
-    cursor: pointer;
-    user-select: none;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    justify-content: center;
-  }
-  .btn-edit:hover,
-  .btn-edit:focus-visible {
-    outline-offset: 4px;
-    outline: 3px solid #8b5cf6;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
-  }
-  .btn-edit .material-icons {
-    font-size: 24px;
-  }
-
-  /* Responsive */
-  @media (max-width: 500px) {
-    main {
-      padding: 32px 16px;
-    }
-    .profile-card {
-      padding: 36px 24px;
-      max-width: 100%;
-    }
-    .profile-username {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-    }
-    .info-item {
-      font-size: 1rem;
-      padding: 16px 18px;
-      gap: 12px;
-    }
-    .info-label {
-      flex: none;
-      width: auto;
-      font-size: 0.9rem;
-    }
-  }
-
-  /* Accessibility */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    border: 0;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    clip-path: inset(100%);
-    white-space: nowrap;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Cocotrade</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .profile-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: 30px;
+            padding: 20px;
+        }
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .order-item {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .order-header {
+            background-color: #f8f9fa;
+            padding: 12px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .order-actions {
+            display: flex;
+            gap: 15px;
+        }
+        .order-content {
+            padding: 15px 20px;
+            border-top: 1px solid #dee2e6;
+            display: none;
+        }
+        .order-item.active .order-content {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-<header aria-label="Application header">
-  <div class="logo" tabindex="0">NoteMaster Pro</div>
-  <nav aria-label="Primary navigation">
-    <a href="#" tabindex="0">Home</a>
-    <a href="#" tabindex="0">Notes</a>
-    <a href="#" tabindex="0" aria-current="page">Profile</a>
-    <a href="#" tabindex="0">Settings</a>
-  </nav>
-</header>
+    <!-- Header will be included here -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0" href="index.php">
+                <img src="images/logo.jpg" alt="site icon">
+                <span class="text-uppercase fw-lighter ms-2">Cocotrade</span>
+            </a>
 
-<main>
-  <article class="profile-card" role="main" aria-labelledby="profileTitle">
-    <h1 id="profileTitle" class="sr-only">User Profile Dashboard</h1>
-    <div class="profile-avatar" aria-label="User profile picture">
-      <img
-        src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3b0f54f0-7f74-44e2-9c8a-e6402b12f61e.png"
-        alt="Profile image showing a user avatar with abstract purple and blue background"
-        width="130"
-        height="130"
-        decoding="async"
-        loading="lazy"
-      />
+            <div class="order-lg-2 d-flex align-items-center">
+                <div class="nav-btns d-flex align-items-center">
+                    <a href="ShopingCart.php" class="btn position-relative me-2">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">5</span>
+                    </a>
+                    <div class="input-group me-2" style="max-width: 200px;">
+                        <input type="search" class="form-control form-control-sm" placeholder="Search...">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                    <a href="profile.php" class="btn active">
+                        <i class="fa fa-user"></i>
+                    </a>
+                </div>
+            </div>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse order-lg-1" id="navMenu">
+                <ul class="navbar-nav mx-auto text-center">
+                    <li class="nav-item px-2 py-2">
+                        <a class="nav-link text-uppercase text-dark" href="index.php#header">home</a>
+                    </li>
+                    <li class="nav-item px-2 py-2">
+                        <a class="nav-link text-uppercase text-dark" href="index.php#retailsale">Retail Sale</a>
+                    </li>
+                    <li class="nav-item px-2 py-2">
+                        <a class="nav-link text-uppercase text-dark" href="index.php#wholesale">wholesale</a>
+                    </li>
+                    <li class="nav-item px-2 py-2">
+                        <a class="nav-link text-uppercase text-dark" href="index.php#about">about us</a>
+                    </li>
+                    <li class="nav-item px-2 py-2 border-0">
+                        <a class="btn text-uppercase text-dark" href="signup.php">Signup</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div style="height: 104px;"></div> <!-- Spacer for fixed navbar -->
+    <div class="container py-5">
+        <!-- Profile Card -->
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="profile-card bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-1">John Doe</h3>
+                            <p class="text-muted mb-0">Member since January 2023</p>
+                        </div>
+                        <div>
+                            <img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-pic">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders Section -->
+                <h4 class="mt-5 mb-4">Your Orders</h4>
+                
+                <!-- Order 1 -->
+                <div class="order-item">
+                    <div class="order-header" onclick="toggleOrder(this)">
+                        <span>Order #12345 - Placed on June 10, 2023</span>
+                        <div class="order-actions">
+                            <a href="#" class="text-primary">Track</a>
+                            <a href="#" class="text-primary">Contact</a>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="order-content">
+                        <p><strong>Status:</strong> Shipped</p>
+                        <p><strong>Items:</strong> 2</p>
+                        <p><strong>Total:</strong> $99.99</p>
+                        <p><strong>Estimated Delivery:</strong> June 20, 2023</p>
+                    </div>
+                </div>
+
+                <!-- Order 2 -->
+                <div class="order-item">
+                    <div class="order-header" onclick="toggleOrder(this)">
+                        <span>Order #12344 - Placed on June 5, 2023</span>
+                        <div class="order-actions">
+                            <a href="#" class="text-primary">Track</a>
+                            <a href="#" class="text-primary">Contact</a>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="order-content">
+                        <p><strong>Status:</strong> Delivered</p>
+                        <p><strong>Items:</strong> 1</p>
+                        <p><strong>Total:</strong> $49.99</p>
+                        <p><strong>Delivered on:</strong> June 12, 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <h2 class="profile-username" tabindex="0">john_doe</h2>
+    <script>
+        function toggleOrder(header) {
+            const orderItem = header.parentElement;
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.fa-chevron-down');
+            
+            // Toggle active class
+            orderItem.classList.toggle('active');
+            
+            // Toggle icon
+            if (orderItem.classList.contains('active')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+    </script>
 
-    <section class="info-list" aria-label="User profile information">
-      <div class="info-item">
-        <span class="material-icons" aria-hidden="true" title="Contact phone number">phone</span>
-        <span class="info-label">Contact Number</span>
-        <span class="info-value" tabindex="0">+1 (555) 123-4567</span>
-      </div>
-      <div class="info-item">
-        <span class="material-icons" aria-hidden="true" title="Email address">email</span>
-        <span class="info-label">Email Address</span>
-        <span class="info-value" tabindex="0">john_doe@example.com</span>
-      </div>
-      <div class="info-item">
-        <span class="material-icons" aria-hidden="true" title="Order count">shopping_cart</span>
-        <span class="info-label">Order Count</span>
-        <span class="info-value" tabindex="0">42</span>
-      </div>
-    </section>
-
-    <button class="btn-edit" type="button" aria-label="Edit profile">
-      <span class="material-icons" aria-hidden="true">edit</span> Edit Profile
-    </button>
-  </article>
-</main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
-
