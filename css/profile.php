@@ -121,7 +121,7 @@
                 </div>
 
                 <!-- Orders Section -->
-                <h4 class="mt-5 mb-4">Your Orders</h4>
+                <h4 class="mt-5 mb-4">My Orders</h4>
                 
                 <!-- Order 1 -->
                 <div class="order-item">
