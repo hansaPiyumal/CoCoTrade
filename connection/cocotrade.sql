@@ -1,91 +1,10 @@
 create database cocotrade;
 use cocotrade;
 
-CREATE TABLE users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    phone_number VARCHAR(20),
-    user_type ENUM('farmer', 'buyer', 'wholesaler', 'admin') NOT NULL,
-    full_name VARCHAR(100) NOT NULL,
-    address TEXT,
-    city VARCHAR(50),
-    district VARCHAR(50),
-    profile_image VARCHAR(255),
-    registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    account_status ENUM('active', 'suspended', 'pending') DEFAULT 'pending',
-    last_login DATETIME,
-    verification_status BOOLEAN DEFAULT FALSE
-);
+create table users(userid INT primary key auto_increment,fname varchar(255),lname varchar(255),mail varchar(255),pswd varchar(255));
 
-CREATE TABLE user_verification (
-    verification_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    id_proof VARCHAR(255),
-    address_proof VARCHAR(255),
-    farm_ownership_proof VARCHAR(255),
-    business_license VARCHAR(255),
-    verification_status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
-    verification_notes TEXT,
-    verified_by INT,
-    verification_date DATETIME,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (verified_by) REFERENCES users(user_id)
-);
+create table items(itemid INT primary key auto_increment,itemname varchar(255),itemprice decimal(9,2),itemcategory varchar(100),itemdetail text,imgname varchar(255),userid INT);
 
-CREATE TABLE products (
-    product_id INT AUTO_INCREMENT PRIMARY KEY,
-    seller_id INT NOT NULL,
-    product_name VARCHAR(100) NOT NULL,
-    product_type ENUM('fresh_coconut', 'dry_coconut', 'coconut_oil', 'coconut_shell', 'other') NOT NULL,
-    description TEXT,
-    price_per_unit DECIMAL(10,2) NOT NULL,
-    unit_type ENUM('piece', 'kilogram', 'liter', 'ton') NOT NULL,
-    available_quantity DECIMAL(10,2) NOT NULL,
-    quality_grade ENUM('A', 'B', 'C', 'premium') NOT NULL,
-    harvest_date DATE,
-    expiry_date DATE,
-    organic_certified BOOLEAN DEFAULT FALSE,
-    product_image1 VARCHAR(255),
-    product_image2 VARCHAR(255),
-    product_image3 VARCHAR(255),
-    listing_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    is_active BOOLEAN DEFAULT TRUE,
-    FOREIGN KEY (seller_id) REFERENCES users(user_id)
-);
-
-CREATE TABLE product_categories (
-    category_id INT AUTO_INCREMENT PRIMARY KEY,
-    category_name VARCHAR(50) NOT NULL,
-    description TEXT,
-    parent_category_id INT,
-    FOREIGN KEY (parent_category_id) REFERENCES product_categories(category_id)
-);
-
-CREATE TABLE orders (
-    order_id INT AUTO_INCREMENT PRIMARY KEY,
-    buyer_id INT NOT NULL,
-    order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    total_amount DECIMAL(10,2) NOT NULL,
-    payment_status ENUM('pending', 'paid', 'failed', 'refunded') DEFAULT 'pending',
-    order_status ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
-    delivery_address TEXT NOT NULL,
-    contact_phone VARCHAR(20) NOT NULL,
-    notes TEXT,
-    FOREIGN KEY (buyer_id) REFERENCES users(user_id)
-);
-
-CREATE TABLE order_items (
-    order_item_id INT AUTO_INCREMENT PRIMARY KEY,
-    order_id INT NOT NULL,
-    product_id INT NOT NULL,
-    quantity DECIMAL(10,2) NOT NULL,
-    unit_price DECIMAL(10,2) NOT NULL,
-    subtotal DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES orders(order_id),
-    FOREIGN KEY (product_id) REFERENCES products(product_id)
-);
 
 CREATE TABLE transportation_services (
     service_id INT AUTO_INCREMENT PRIMARY KEY,
