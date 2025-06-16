@@ -4,7 +4,7 @@
 <?php
     session_start();
 
-    $id = $_SESSION['user_id'];
+    $id = $_SESSION['userid'];
 
     if(isset($_POST['pst'])){
         $title = mysqli_real_escape_string($connection,$_POST['title']);
@@ -38,7 +38,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            background-color:rgb(140, 191, 241);
         }
         .header {
             background: url('https://via.placeholder.com/1920x400') no-repeat center center/cover;
