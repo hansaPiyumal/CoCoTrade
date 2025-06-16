@@ -74,7 +74,7 @@
                     </div>
                     <a href="profile.html" class="btn active">
                         <i class="fa fa-user"></i>
-                    </a>
+    </a>
                 </div>
             </div>
 
