@@ -52,13 +52,14 @@
                         <a class = "nav-link text-uppercase text-dark" href = "#retailsale">Retail Sale</a>
                     </li>
                     <li class = "nav-item px-2 py-2">
-                        <a class = "nav-link text-uppercase text-dark" href = "#wholesale">wholesale</a>
+                        <a class = "nav-link text-uppercase text-dark" href = "#wholesale">Wholesale</a>
                     </li>
                     <li class = "nav-item px-2 py-2">
                         <a class = "nav-link text-uppercase text-dark" href = "#about">about us</a>
                     </li>
                     <li class = "nav-item px-2 py-2 border-0">
-                        <a class = "btn text-uppercase text-dark" href = "signup.php">Signup</a>
+                        <a class = "btn text-uppercase text-dark" href = "signup.php">Sig
+                            nup</a>
                     </li>
                 </ul>
             </div>
