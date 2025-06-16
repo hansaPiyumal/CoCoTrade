@@ -144,7 +144,7 @@
                 <!-- Order 2 -->
                 <div class="order-item">
                     <div class="order-header" onclick="toggleOrder(this)">
-                        <span>Order #12344 - Placed on June 5, 2023</span>
+                        <span>Order #1 - Placed on June 5, 2023</span>
                         <div class="order-actions">
                             <a href="#" class="text-primary">Track</a>
                             <a href="#" class="text-primary">Contact</a>
