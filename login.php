@@ -16,7 +16,7 @@
             $hashedPassword = $row['pswd'];
 
             if(password_verify($pswd,$hashedPassword)){
-                $_SESSION['user_id'] = $row['userid'];
+                $_SESSION['userid'] = $row['userid'];
                 $_SESSION['fname'] = $row['fname'];
                 header("Location: index.php");
             }
@@ -48,7 +48,7 @@
             font-size: 50px;
         }
         .blue-box {
-            background-color: #ffd36d;
+            background-color:rgb(6, 146, 53);
             border-radius: 20px;
             padding: 50px;
             margin: 40px auto;
@@ -63,8 +63,8 @@
                 <div class="col-md-6">
                     <h1 class="text-center montserrat-brand" style="margin-top: 150px;font-size:80px">C<span style="color:orange">O</span>C<span style="color:orange">O</span></h1>
                     <h1 class="text-center montserrat-brand" style="font-size:80px; color:whi">TRADE</h1>
-                    <p class="text-center" style="font-size:large;color:rgb(255, 255, 255)">Bringing the Market to You</p><br><br>
-                    <p class="text-center">Don't have an account? <a style="text-decoration: none;color:grey" href="signup.php">Create an account</a></p>
+                    <p class="text-center" style="font-size:large;color:rgb(0, 0, 0)">Bringing the Market to You</p><br><br>
+                    <p class="text-center">Don't have an account? <a style="text-decoration: none;color:black" href="signup.php">Create an account</a></p>
                 </div>
                 <div class="col-md-6">
                     <form action="login.php" method="post">
@@ -77,7 +77,7 @@
                             <label for="exampleInputPassword1" class="form-label">Password</label>
                             <input type="password" name="pswd" class="form-control" id="exampleInputPassword1">
                         </div>
-                        <button name="login" type="submit" class="btn" style="background-color: orange; color: whitesmoke;">Login</button>
+                        <button name="login" type="submit" class="btn" style="background-color: orange; color: black;">Login</button>
                     </form>
                 </div>
             </div>
