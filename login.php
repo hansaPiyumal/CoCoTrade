@@ -47,37 +47,58 @@
             font-style: normal;
             font-size: 50px;
         }
-        .blue-box {
-            background-color:rgb(6, 146, 53);
+        .video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            object-fit: cover;
+        }
+        .content-overlay {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(143, 153, 188, 0.5);
             border-radius: 20px;
             padding: 50px;
             margin: 40px auto;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+        .text-white {
+            color: white !important;
+        }
     </style>
 </head>
 <body>
+    <!-- Video Background -->
+    <video autoplay muted loop id="myVideo" class="video-background">
+        <source src="images/vid.mp4" type="video/mp4">
+    </video>
+
     <div class="container-fluid">
-        <div class="blue-box">
+        <div class="content-overlay">
             <div class="row">
                 <div class="col-md-6">
-                    <h1 class="text-center montserrat-brand" style="margin-top: 150px;font-size:80px">C<span style="color:orange">O</span>C<span style="color:orange">O</span></h1>
-                    <h1 class="text-center montserrat-brand" style="font-size:80px; color:whi">TRADE</h1>
-                    <p class="text-center" style="font-size:large;color:rgb(0, 0, 0)">Bringing the Market to You</p><br><br>
-                    <p class="text-center">Don't have an account? <a style="text-decoration: none;color:black" href="signup.php">Create an account</a></p>
+                    <h1 class="text-center montserrat-brand" style="margin-top: 150px;font-size:80px">C<span class="text-white">O</span>C<span class="text-white">O</span></h1>
+                    <h1 class="text-center montserrat-brand" style="font-size:80px;">TRADE</h1>
+                    <p class="text-center text-white" style="font-size:large;">Bringing the Market to You</p><br><br>
+                    <p class="text-center text-white">Don't have an account? <a style="text-decoration: none;color:white" href="signup.php">Create an account</a></p>
                 </div>
                 <div class="col-md-6">
                     <form action="login.php" method="post">
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
+                            <label for="exampleInputEmail1" class="form-label text-white">Email address</label>
                             <input type="email" name="mail" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                            <div id="emailHelp" class="form-text text-white">We'll never share your email with anyone else.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Password</label>
+                            <label for="exampleInputPassword1" class="form-label text-white">Password</label>
                             <input type="password" name="pswd" class="form-control" id="exampleInputPassword1">
                         </div>
-                        <button name="login" type="submit" class="btn" style="background-color: orange; color: black;">Login</button>
+                        <button name="login" type="submit" class="btn" style="background-color: rgba(3, 75, 22, 1); color: white;">Login</button>
                     </form>
                 </div>
             </div>
