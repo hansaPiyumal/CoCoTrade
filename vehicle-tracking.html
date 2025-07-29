@@ -1,0 +1,353 @@
+<!-- views/vehicle-tracking.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CoCoTrade - Vehicle Tracking</title>
+    <style>
+      /* CSS for the tracking page */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+      }
+
+      .tracking-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .header h1 {
+        color: #2c3e50;
+        margin: 0;
+      }
+
+      .map-container {
+        width: 100%;
+        height: 500px;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+      }
+
+      .controls {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      select,
+      button {
+        padding: 10px 15px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        background-color: white;
+        font-size: 14px;
+      }
+
+      button {
+        background-color: #27ae60;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #2ecc71;
+      }
+
+      .vehicle-list {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .vehicle-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        align-items: center;
+      }
+
+      .vehicle-item:last-child {
+        border-bottom: none;
+      }
+
+      .vehicle-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .vehicle-status {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #27ae60;
+      }
+
+      .vehicle-status.inactive {
+        background-color: #e74c3c;
+      }
+
+      .vehicle-status.moving {
+        background-color: #f39c12;
+      }
+
+      @media (max-width: 768px) {
+        .controls {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tracking-container">
+      <div class="header">
+        <h1>Vehicle Tracking</h1>
+        <div class="controls">
+          <select id="vehicleSelect">
+            <option value="all">All Vehicles</option>
+            <option value="TRUCK001">Truck 001</option>
+            <option value="TRUCK002">Truck 002</option>
+            <option value="VAN001">Van 001</option>
+          </select>
+          <button id="refreshBtn">Refresh</button>
+        </div>
+      </div>
+
+      <div id="map" class="map-container"></div>
+
+      <div class="vehicle-list" id="vehicleList">
+        <!-- Vehicle items will be added dynamically -->
+      </div>
+    </div>
+
+    <script>
+      // Main Vehicle Tracking Class
+      class VehicleTracker {
+        constructor() {
+          this.map = null;
+          this.markers = {};
+          this.socket = null;
+          this.vehicles = {
+            TRUCK001: { name: "Truck 001", type: "truck", status: "active" },
+            TRUCK002: { name: "Truck 002", type: "truck", status: "moving" },
+            VAN001: { name: "Van 001", type: "van", status: "inactive" },
+          };
+
+          this.initMap();
+          this.renderVehicleList();
+          this.setupEventListeners();
+          this.connectToWebSocket(); // Replace fetchVehiclePositions() with this
+
+          // Remove the simulated movement interval since we'll get real updates
+          // setInterval(() => this.simulateMovement(), 5000);
+        }
+
+        initMap() {
+          // Initialize Google Map centered on Sri Lanka
+          this.map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 7.8731, lng: 80.7718 },
+            zoom: 8,
+          });
+        }
+
+        renderVehicleList() {
+          const listContainer = document.getElementById("vehicleList");
+          listContainer.innerHTML = "";
+
+          Object.entries(this.vehicles).forEach(([id, vehicle]) => {
+            const vehicleItem = document.createElement("div");
+            vehicleItem.className = "vehicle-item";
+
+            vehicleItem.innerHTML = `
+                        <div class="vehicle-info">
+                            <div class="vehicle-status ${vehicle.status}"></div>
+                            <div>
+                                <h3>${vehicle.name}</h3>
+                                <p>${id} • ${vehicle.type}</p>
+                            </div>
+                        </div>
+                        <button class="track-btn" data-vehicle="${id}">Track</button>
+                    `;
+
+            listContainer.appendChild(vehicleItem);
+          });
+
+          // Add event listeners to track buttons
+          document.querySelectorAll(".track-btn").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              const vehicleId = e.target.getAttribute("data-vehicle");
+              this.centerOnVehicle(vehicleId);
+            });
+          });
+        }
+
+        setupEventListeners() {
+          document
+            .getElementById("refreshBtn")
+            .addEventListener("click", () => {
+              this.fetchVehiclePositions();
+            });
+
+          document
+            .getElementById("vehicleSelect")
+            .addEventListener("change", (e) => {
+              if (e.target.value === "all") {
+                this.showAllVehicles();
+              } else {
+                this.centerOnVehicle(e.target.value);
+              }
+            });
+        }
+
+        connectToWebSocket() {
+          // Update this URL to match your WebSocket server
+          this.socket = new WebSocket("ws://yourdomain.com:8080");
+
+          this.socket.onopen = () => {
+            console.log("WebSocket connected");
+            // Subscribe to all vehicles initially
+            this.socket.send(
+              JSON.stringify({
+                action: "subscribe",
+                vehicle_id: "all",
+              })
+            );
+          };
+
+          this.socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            this.updateVehiclePosition(
+              data.vehicle_id,
+              data.latitude,
+              data.longitude
+            );
+          };
+
+          this.socket.onclose = () => {
+            console.log("WebSocket disconnected. Reconnecting...");
+            setTimeout(() => this.connectToWebSocket(), 5000);
+          };
+
+          this.socket.onerror = (error) => {
+            console.error("WebSocket error:", error);
+          };
+        }
+
+        fetchVehiclePositions() {
+          // Get initial positions via API
+          fetch("/api/vehicles/positions")
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                data.data.forEach((vehicle) => {
+                  this.updateVehiclePosition(
+                    vehicle.vehicle_id,
+                    vehicle.latitude,
+                    vehicle.longitude
+                  );
+                });
+              }
+            })
+            .catch((error) =>
+              console.error("Error fetching positions:", error)
+            );
+        }
+
+        updateVehiclePosition(vehicleId, lat, lng) {
+          if (!this.markers[vehicleId]) {
+            // Create new marker
+            this.markers[vehicleId] = new google.maps.Marker({
+              position: { lat, lng },
+              map: this.map,
+              title: this.vehicles[vehicleId]?.name || vehicleId,
+              icon: this.getVehicleIcon(vehicleId),
+            });
+          } else {
+            // Update existing marker position
+            this.markers[vehicleId].setPosition({ lat, lng });
+          }
+        }
+
+        centerOnVehicle(vehicleId) {
+          const marker = this.markers[vehicleId];
+          if (marker) {
+            this.map.panTo(marker.getPosition());
+            this.map.setZoom(14);
+          }
+        }
+
+        showAllVehicles() {
+          const bounds = new google.maps.LatLngBounds();
+          Object.values(this.markers).forEach((marker) => {
+            bounds.extend(marker.getPosition());
+          });
+
+          if (!bounds.isEmpty()) {
+            this.map.fitBounds(bounds);
+          }
+        }
+
+        getVehicleIcon(vehicleId) {
+          const vehicle = this.vehicles[vehicleId];
+          if (!vehicle) return null;
+
+          // Base URL for map markers (you can use your own icons)
+          const baseUrl = "https://maps.google.com/mapfiles/ms/icons/";
+
+          switch (vehicle.type) {
+            case "truck":
+              return baseUrl + "truck.png";
+            case "van":
+              return baseUrl + "bus.png";
+            default:
+              return baseUrl + "green-dot.png";
+          }
+        }
+
+        simulateMovement() {
+          // This is just for demo purposes - remove in production
+          Object.keys(this.markers).forEach((id) => {
+            const marker = this.markers[id];
+            const position = marker.getPosition();
+            const newLat = position.lat() + (Math.random() * 0.01 - 0.005);
+            const newLng = position.lng() + (Math.random() * 0.01 - 0.005);
+            this.updateVehiclePosition(id, newLat, newLng);
+          });
+        }
+      }
+
+      // Initialize when Google Maps API is loaded
+      function initMap() {
+        new VehicleTracker();
+      }
+    </script>
+
+    <!-- Load Google Maps API -->
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+    ></script>
+  </body>
+</html>
