@@ -40,7 +40,7 @@
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
-                    <a href="profile.php" class="btn">
+                    <a href="selcting_profiles.php" class="btn">
                         <i class="fa fa-user"></i>
                     </a>
                 </div>
@@ -65,7 +65,7 @@
                         <a class = "nav-link text-uppercase text-dark" href = "#about">about us</a>
                     </li>
                     <li class = "nav-item px-2 py-2 border-0">
-                        <a class = "btn text-uppercase text-dark" href = "signup.php">Signup</a>
+                        <a class = "btn text-uppercase text-dark" href = "selcting_profiles.php">Signup</a>
                     </li>
                 </ul>
             </div>
@@ -78,12 +78,12 @@
         <div class = "container h-100 d-flex align-items-center carousel-inner">
             <div class = "text-center carousel-item active">
                 <h2 class = "text-capitalize text-white">COCOTRADE</h2>
-                <h1 class = "text-uppercase py-2 fw-bold text-white">JOING WITH US</h1>
+                <h1 class = "text-uppercase py-2 fw-bold text-white">JOIN WITH US</h1>
                 <a href = "adpost.php" class = "btn mt-3 text-uppercase">Add Post</a>
             </div>
             <div class = "text-center carousel-item">
                 <h2 class = "text-capitalize text-white">COCOTRADE</h2>
-                <h1 class = "text-uppercase py-2 fw-bold text-white">BEST SELLES SPOT</h1>
+                <h1 class = "text-uppercase py-2 fw-bold text-white">BEST SELLERS SPOT</h1>
                 <a href = "adpost.php" class = "btn mt-3 text-uppercase">Add Post</a>
             </div>
         </div>
@@ -97,56 +97,134 @@
     </header>
 
     <section id = "retailsale" class = "py-5">
-        <div class = "container">
-            <div class = "title text-center">
-                <h2 class = "position-relative d-inline-block">Retail Sale</h2>
-            </div>
+    <div class = "container">
+        <div class = "title text-center">
+            <h2 class = "position-relative d-inline-block">Retail Sale</h2>
+        </div>
 
-            <div class = "row g-0">
-                <div class = "collection-list mt-4 row gx-0 gy-3">
-                    <?php
-                        $sql = "select * from items where itemcategory='retail'";
-                        $result = mysqli_query($connection,$sql);
+        <div class = "row g-4">
+            <?php
+                $sql = "SELECT * FROM items WHERE itemcategory='retail' LIMIT 6";
+                $result = mysqli_query($connection,$sql);
 
-                        while($row = mysqli_fetch_assoc($result)){
-                            echo "<div class='col-md-6 col-lg-4 col-xl-3 p-2 best'>";
-                            echo "<div class='collection-img position-relative'>";
-                                echo "<img src='images/uploads/" . $row['imgname'] . "' class='w-100'>" ;
-                                echo "<span class='position-absolute bg-primary text-white d-flex align-items-center justify-content-center'>sale</span>";
-                            echo "</div>";
-                            echo "<div class='text-center'>";
-                            echo "<a style='text-decoration:none;' href='item.php?item={$row['itemid']}' class='text-capitalize my-1'>" . $row['itemname'] . "</a>";
-                                echo "<br><span class='fw-bold'>Rs " . $row['itemprice'] . "</span>";
-                            echo "</div></div>";
-                        }
-                    ?>
+                if(mysqli_num_rows($result) > 0) {
+                    while($row = mysqli_fetch_assoc($result)){
+                        echo '
+                        <div class="col-md-6 col-lg-4 col-xl-2">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="position-relative">
+                                    <img src="images/uploads/'.$row['imgname'].'" class="card-img-top" alt="'.$row['itemname'].'">
+                                    <span class="position-absolute top-0 end-0 m-2 bg-danger text-white rounded-pill px-2 py-1 small">Sale</span>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">'.$row['itemname'].'</h5>
+                                    <p class="card-text text-primary fw-bold">Rs '.number_format($row['itemprice'], 2).'</p>
+                                </div>
+                                <div class="card-footer bg-white border-0">
+                                    <a href="checkout.php?item='.$row['itemid'].'" class="btn btn-primary w-100">Buy Now</a>
+                                </div>
+                            </div>
+                        </div>';
+                    }
+                } else {
+                    // Sample cards when no database items exist
+                    $retailItems = [
+                        ['name' => 'Coconut Oil', 'price' => '450.00', 'image' => 'coconut-oil.jpg'],
+                        ['name' => 'Coconut Spoon', 'price' => '100.00', 'image' => 'coconut-spoon.jpg'],
+                        ['name' => 'Coconut Water', 'price' => '150.00', 'image' => 'coconut-water.jpg'],
+                        ['name' => 'Coconut Shell Bowl', 'price' => '350.00', 'image' => 'coconut-bowl.jpg'],
+                        ['name' => 'Coconut Soap', 'price' => '120.00', 'image' => 'coconut-soap.jpeg'],
+                        ['name' => 'Coconut Fiber Brush', 'price' => '200.00', 'image' => 'coconut-brush.jpeg']
+                    ];
+                    
+                    foreach($retailItems as $item) {
+                        echo '
+                        <div class="col-md-6 col-lg-4 col-xl-2">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="position-relative">
+                                    <img src="images/'.$item['image'].'" class="card-img-top" alt="'.$item['name'].'">
+                                    <span class="position-absolute top-0 end-0 m-2 bg-danger text-white rounded-pill px-2 py-1 small">Sale</span>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">'.$item['name'].'</h5>
+                                    <p class="card-text text-primary fw-bold">Rs '.$item['price'].'</p>
+                                </div>
+                                <div class="card-footer bg-white border-0">
+                                    <button href = "checkout.php" class="btn btn-primary w-100">Buy Now</button>
+                                </div>
+                            </div>
+                        </div>';
+                    }
+                }
+            ?>
+        </div>
+    </div>
+</section>
                   
     <section id = "wholesale" class = "py-5">
-        <div class = "container">
-            <div class = "title text-center py-5">
-                <h2 class = "position-relative d-inline-block">Wholesale</h2>
-            </div>
-
-            <div class = "special-list row g-0">
-            <?php
-                        $sql = "select * from items where itemcategory='wholesale'";
-                        $result = mysqli_query($connection,$sql);
-
-                        while($row = mysqli_fetch_assoc($result)){
-                            echo "<div class='col-md-6 col-lg-4 col-xl-3 p-2 best'>";
-                            echo "<div class='collection-img position-relative'>";
-                                echo "<img src='images/uploads/" . $row['imgname'] . "' class='w-100'>";
-                                echo "<span class='position-absolute bg-primary text-white d-flex align-items-center justify-content-center'>sale</span>";
-                            echo "</div>";
-                            echo "<div class='text-center'>";
-                                echo "<a style='text-decoration:none;' href='item.php?item={$row['itemid']}' class='text-capitalize my-1'>" . $row['itemname'] . "</a>";
-                                echo "<br><span class='fw-bold'>Rs " . $row['itemprice'] . "</span>";
-                            echo "</div></div>";
-                        }
-                    ?>
-            </div>
+    <div class = "container">
+        <div class = "title text-center py-3">
+            <h2 class = "position-relative d-inline-block">Wholesale</h2>
         </div>
-    </section>
+
+        <div class = "row g-4">
+            <?php
+                $sql = "SELECT * FROM items WHERE itemcategory='wholesale' LIMIT 6";
+                $result = mysqli_query($connection,$sql);
+
+                if(mysqli_num_rows($result) > 0) {
+                    while($row = mysqli_fetch_assoc($result)){
+                        echo '
+                        <div class="col-md-6 col-lg-4 col-xl-2">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="position-relative">
+                                    <img src="images/uploads/'.$row['imgname'].'" class="card-img-top" alt="'.$row['itemname'].'">
+                                    <span class="position-absolute top-0 end-0 m-2 bg-danger text-white rounded-pill px-2 py-1 small">Sale</span>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">'.$row['itemname'].'</h5>
+                                    <p class="card-text text-primary fw-bold">Rs '.number_format($row['itemprice'], 2).'</p>
+                                </div>
+                                <div class="card-footer bg-white border-0">
+                                    <a href="checkout.php ?item='.$row['itemid'].'" class="btn btn-primary w-100">Buy Now</a>
+                                </div>
+                            </div>
+                        </div>';
+                    }
+                } else {
+                    // Sample cards when no database items exist
+                    $wholesaleItems = [
+                        ['name' => 'Coconut Bunch (10kg)', 'price' => '1200.00', 'image' => 'coconut-bunch.jpg'],
+                        ['name' => 'Coconut Oil (5L)', 'price' => '2000.00', 'image' => 'coconut-oil-5l.jpg'],
+                        ['name' => 'Coconut Water (24pk)', 'price' => '3000.00', 'image' => 'coconut-water-case.jpg'],
+                        ['name' => 'Coconut Shell Products', 'price' => '2500.00', 'image' => 'coconut-shells.jpg'],
+                        ['name' => 'Coconut Fiber (Bulk)', 'price' => '1800.00', 'image' => 'coconut-fiber.jpg'],
+                        ['name' => 'Coconut Charcoal (10kg)', 'price' => '3500.00', 'image' => 'coconut-charcoal.webp']
+                    ];
+                    
+                    foreach($wholesaleItems as $item) {
+                        echo '
+                        <div class="col-md-6 col-lg-4 col-xl-2">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="position-relative">
+                                    <img src="images/'.$item['image'].'" class="card-img-top" alt="'.$item['name'].'">
+                                    <span class="position-absolute top-0 end-0 m-2 bg-danger text-white rounded-pill px-2 py-1 small">Sale</span>
+                                </div>
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">'.$item['name'].'</h5>
+                                    <p class="card-text text-primary fw-bold">Rs '.$item['price'].'</p>
+                                </div>
+                                <div class="card-footer bg-white border-0">
+                                    <button href = "checkout.php" class="btn btn-primary w-100">Buy Now</button>
+                                </div>
+                            </div>
+                        </div>';
+                    }
+                }
+            ?>
+        </div>
+    </div>
+</section>
 
 
     <section id = "about" class = "py-5">
@@ -177,13 +255,14 @@
         <div class = "container">
             <div class = "d-flex flex-column align-items-center justify-content-center">
                 <div class = "title text-center pt-3 pb-5">
-                    <h2 class = "position-relative d-inline-block ms-4">Newsletter Subscription</h2>
+                    <a href = "newsletter.php" class = "btn mt-3 text-uppercase">Newsletter (Learn about coconuts)</a>
+                    
                 </div>
-
+                
                 <p class = "text-center text-muted">Stay with us with new products</p>
                 <div class = "input-group mb-3 mt-3">
                     <input type = "text" class = "form-control" placeholder="Enter Your Email ...">
-                    <button class = "btn btn-primary" type = "submit">Subscribe</button>
+                    <button href = "subscribe_newsletter.php" class = "btn btn-primary" >Subscribe</button>
                 </div>
             </div>
         </div>
