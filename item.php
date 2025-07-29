@@ -41,7 +41,7 @@
     <div class="row">
         <?php
             $iid = $_GET['item'];
-            $sql = "select * from items where itemid=$iid";
+            $sql = "select * from items where itemid={$iid}";
             $result = mysqli_query($connection,$sql);
 
             while($row = mysqli_fetch_assoc($result)){

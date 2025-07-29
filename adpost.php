@@ -1,3 +1,4 @@
+
 <?php
     require_once 'connection/connection.php';
 ?>
@@ -38,22 +39,30 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color:rgb(140, 191, 241);
+            background-image:url('images/pexels-nipananlifestyle-com-625927-1424457.jpg');
+            background-size: cover;
+         background-position: center;
         }
         .header {
             background: url('https://via.placeholder.com/1920x400') no-repeat center center/cover;
             color: white;
             text-align: center;
-            padding: 80px 0;
+            padding: 8px 0;
         }
         .header h1 {
             font-size: 3rem;
         }
-        .form-container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    .form-container {
+        background: rgba(255, 255, 255, 0.5); /* 80% white (20% transparent) */
+        backdrop-filter: blur(5px); /* Optional: adds a slight blur effect */
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2); /* Optional: subtle border */
+    }
+    
+    
+</style>
         }
         .btn-primary {
             background-color: #ff6f61;
